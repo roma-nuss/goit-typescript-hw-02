@@ -32,10 +32,7 @@ function App() {
     try {
       setIsLoading(true);
 
-      const data: FetchResponse = await fetchImagesBySearchValue(
-        searchValue,
-        page
-      );
+      const data = await fetchImagesBySearchValue(searchValue, page);
 
       if (data.total_pages === 0) {
         noMatches(searchValue);
