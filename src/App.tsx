@@ -9,35 +9,11 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
-
-import "./App.css";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
-interface Image {
-  id: string;
-  alt_description: string | null;
-  urls: {
-    small: string;
-    regular: string;
-  };
-  user: {
-    name: string;
-  };
-  likes: number;
-}
+import { Image, ImageInfo, FetchResponse } from "./types";
 
-interface FetchResponse {
-  results: Image[];
-  total_pages: number;
-}
-
-interface ImageInfo {
-  id: string;
-  url: string;
-  description: string | null;
-  likes: number;
-  author: string;
-}
+import "./App.css";
 
 function App() {
   const [searchValue, setSearchValue] = useState<string | null>(null);
@@ -113,7 +89,7 @@ function App() {
   };
 
   useEffect(() => {
-    if (searchValue === null) return;
+    if (!searchValue) return;
 
     fetchImages(searchValue, page);
   }, [searchValue, page]);
@@ -121,24 +97,20 @@ function App() {
   return (
     <>
       <SearchBar onSubmit={onSearch} />
-
       <Toaster />
-
       <Section>
-        {isError !== null && <ErrorMessage error={isError} />}
-        {fetchedImages !== null && (
+        {isError && <ErrorMessage error={isError} />}
+        {fetchedImages && (
           <ImageGallery images={fetchedImages} onImageClick={onImageClick} />
         )}
         {totalPages > 1 && totalPages !== page && (
           <LoadMoreBtn onLoadMoreClick={onLoadMoreClick} />
         )}
-
         <ImageModal
           isOpen={isModalOpen}
           onCloseModalClick={closeModal}
           imageInfo={clickedImage}
         />
-
         {isLoading && <Loader />}
       </Section>
     </>

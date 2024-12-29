@@ -1,24 +1,6 @@
 import React from "react";
+import { Image, ImageInfo } from "../../types"; // Імпорт типів
 import styles from "./ImageCard.module.css";
-
-interface Image {
-  urls: {
-    regular: string;
-    small: string;
-  };
-  alt_description: string | null;
-  likes: number;
-  user: {
-    name: string;
-  };
-}
-
-interface ImageInfo {
-  src: string;
-  descr: string | null;
-  likes: number;
-  author: string;
-}
 
 interface ImageCardProps {
   image: Image;
@@ -28,8 +10,9 @@ interface ImageCardProps {
 const ImageCard: React.FC<ImageCardProps> = ({ image, onImageClick }) => {
   const handleClick = () => {
     const imageInfo: ImageInfo = {
-      src: image.urls.regular,
-      descr: image.alt_description,
+      id: image.id, // Додавання id, якщо необхідно
+      url: image.urls.regular,
+      description: image.alt_description,
       likes: image.likes,
       author: image.user.name,
     };

@@ -3,17 +3,10 @@ import { CgClose } from "react-icons/cg";
 import { BsCamera2 } from "react-icons/bs";
 import { AiOutlineLike } from "react-icons/ai";
 import Modal from "react-modal";
+import { ImageInfo } from "../../types";
 import styles from "./ImageModal.module.css";
 
 Modal.setAppElement("#root");
-
-interface ImageInfo {
-  id: string;
-  url: string;
-  description: string | null;
-  likes: number;
-  author: string;
-}
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -34,22 +27,18 @@ const ImageModal: React.FC<ImageModalProps> = ({
     <Modal
       isOpen={isOpen}
       className={styles.modal}
-      overlayClassName={
-        isOpen ? `${styles.overlay} ${styles.is_open}` : styles.overlay
-      }
-      shouldFocusAfterRender={true}
+      overlayClassName={`${styles.overlay} ${isOpen ? styles.is_open : ""}`}
       onRequestClose={onCloseModalClick}
-      ariaHideApp={true}
-      preventScroll={true}
-      shouldCloseOnOverlayClick={true}
-      shouldCloseOnEsc={true}
+      shouldFocusAfterRender
+      shouldCloseOnOverlayClick
+      shouldCloseOnEsc
       contentLabel="Photo and images library"
     >
       <button className={styles.btn_close} onClick={onCloseModalClick}>
         <CgClose className={styles.btn_close_icon} />
       </button>
       <div className={styles.card_wrap}>
-        <p className={styles.img_descr}>{description}</p>
+        <p className={styles.img_descr}>{description || "No description"}</p>
         <img className={styles.img} src={url} alt={description || "Image"} />
         <div className={styles.info_wrap}>
           <p className={styles.info}>
